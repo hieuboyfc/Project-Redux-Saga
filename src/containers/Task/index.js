@@ -3,36 +3,24 @@ import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
 import styles from './styles';
-
-const listTask = [
-  {
-    id: 1,
-    title: 'Chiều Hôm Ấy',
-    description: 'Em khóc cho cuộc tình chúng mình',
-    status: 0,
-  },
-  {
-    id: 2,
-    title: 'Vài Tháng Sau',
-    description: 'Chẳng thể bước tới ôm em',
-    status: 1,
-  },
-  {
-    id: 3,
-    title: 'Giá Như Anh',
-    description: 'Người từng yêu anh cho anh mộng mơ ngày tháng mai sau ',
-    status: 2,
-  },
-];
+import { bindActionCreators } from 'redux';
+import * as taskActions from '../../actions/Task';
 
 class Task extends Component {
   state = {
     open: false,
   };
+
+  componentDidMount() {
+    const { dataTasks } = this.props;
+    const { fetchListTaskRequest } = dataTasks;
+    fetchListTaskRequest();
+  }
 
   closeForm = () => {
     this.setState({
@@ -47,6 +35,7 @@ class Task extends Component {
   };
 
   renderBoard() {
+    const { listTask } = this.props;
     let xhtml = null;
     xhtml = (
       <Grid container spacing={2}>
@@ -97,6 +86,23 @@ class Task extends Component {
 Task.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool,
+  dataTasks: PropTypes.shape({
+    fetchListTaskRequest: PropTypes.func,
+  }),
+  listTask: PropTypes.array,
 };
 
-export default withStyles(styles)(Task);
+const mapStateToProps = state => {
+  return {
+    listTask: state.task.listTask,
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    dataTasks: bindActionCreators(taskActions, dispatch),
+  };
+};
+
+export default withStyles(styles)(
+  connect(mapStateToProps, mapDispatchToProps)(Task),
+);

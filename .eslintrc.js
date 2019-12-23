@@ -31,6 +31,7 @@ module.exports = {
     'no-use-before-define': 0,
     'no-param-reassign': 0,
     'class-methods-use-this': 0,
+    'import/no-useless-path-segments': 0,
     'import/no-extraneous-dependencies': 0,
     'import/prefer-default-export': 0,
     'import/extendsions': 0,

@@ -50,7 +50,7 @@
       "pre-commit": "lint-staged"
     }
   },
-  "lint-staged" : {
+  "lint-staged": {
     "**/*.{js,css}": [
       "eslint src",
       "npm run format",

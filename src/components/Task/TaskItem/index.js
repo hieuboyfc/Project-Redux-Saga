@@ -29,10 +29,20 @@ class TaskItem extends Component {
           <p>{task.description}</p>
         </CardContent>
         <CardActions className={classes.cardActions}>
-          <Fab color="primary" aria-label="Edit" size="small">
+          <Fab
+            color="primary"
+            aria-label="Edit"
+            size="small"
+            title="Sửa công việc"
+          >
             <Icon fontSize="small">edit_icon</Icon>
           </Fab>
-          <Fab color="secondary" aria-label="Delete" size="small">
+          <Fab
+            color="secondary"
+            aria-label="Delete"
+            size="small"
+            title="Xóa công việc"
+          >
             <Icon fontSize="small">delete_icon</Icon>
           </Fab>
         </CardActions>

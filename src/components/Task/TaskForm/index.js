@@ -36,11 +36,11 @@ class TaskForm extends Component {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={closeForm} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={closeForm} color="primary">
+          <Button variant="contained" onClick={closeForm} color="primary">
             OK
+          </Button>
+          <Button variant="contained" onClick={closeForm} color="secondary">
+            Cancel
           </Button>
         </DialogActions>
       </Dialog>

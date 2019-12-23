@@ -3,8 +3,8 @@ import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
-import TaskForm from '../../components/TaskBoard/TaskForm';
-import TaskList from '../../components/TaskBoard/TaskList';
+import TaskForm from '../../components/Task/TaskForm';
+import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
 import styles from './styles';
 
@@ -29,7 +29,7 @@ const listTask = [
   },
 ];
 
-class TaskBoard extends Component {
+class Task extends Component {
   state = {
     open: false,
   };
@@ -83,8 +83,9 @@ class TaskBoard extends Component {
           color="primary"
           className={classes.button}
           onClick={this.openForm}
+          title="Thêm mới công việc"
         >
-          <AddIcon /> Add New Task
+          <AddIcon /> Thêm Mới Công Việc
         </Button>
         {this.renderBoard()}
         {this.renderForm()}
@@ -93,9 +94,9 @@ class TaskBoard extends Component {
   }
 }
 
-TaskBoard.propTypes = {
+Task.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool,
 };
 
-export default withStyles(styles)(TaskBoard);
+export default withStyles(styles)(Task);

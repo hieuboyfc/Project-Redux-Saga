@@ -47,6 +47,7 @@ class TaskBoard extends Component {
   };
 
   renderBoard() {
+    var h = null;
     let xhtml = null;
     xhtml = (
       <Grid container spacing={2}>

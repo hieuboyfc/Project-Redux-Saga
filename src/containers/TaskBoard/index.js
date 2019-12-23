@@ -48,7 +48,6 @@ class TaskBoard extends Component {
 
   renderBoard() {
     let xhtml = null;
-    var h = null;
     xhtml = (
       <Grid container spacing={2}>
         {STATUSES.map(status => {

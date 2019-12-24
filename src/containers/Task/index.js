@@ -4,12 +4,12 @@ import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators, compose } from 'redux';
+import * as taskActions from '../../actions/Task';
 import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
 import styles from './styles';
-import { bindActionCreators } from 'redux';
-import * as taskActions from '../../actions/Task';
 
 class Task extends Component {
   state = {
@@ -18,8 +18,8 @@ class Task extends Component {
 
   componentDidMount() {
     const { dataTasks } = this.props;
-    const { fetchListTaskRequest } = dataTasks;
-    fetchListTaskRequest();
+    const { fetchListTask } = dataTasks;
+    fetchListTask();
   }
 
   closeForm = () => {
@@ -87,7 +87,7 @@ Task.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool,
   dataTasks: PropTypes.shape({
-    fetchListTaskRequest: PropTypes.func,
+    fetchListTask: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };
@@ -103,6 +103,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withStyles(styles)(
-  connect(mapStateToProps, mapDispatchToProps)(Task),
-);
+const withConnect = connect(mapStateToProps, mapDispatchToProps);
+
+export default compose(withStyles(styles), withConnect)(Task);

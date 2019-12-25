@@ -1,4 +1,3 @@
-import * as taskApis from '../apis/task';
 import * as taskConstants from '../constants/task';
 
 export const fetchListTask = () => {
@@ -25,17 +24,20 @@ export const fetchListTaskFailed = error => {
   };
 };
 
-// export const fetchListTaskRequest = () => {
-//   return dispatch => {
-//     dispatch(fetchListTask());
-//     taskApis
-//       .getListTask()
-//       .then(resp => {
-//         const { data } = resp;
-//         dispatch(fetchListTaskSuccess(data));
-//       })
-//       .catch(error => {
-//         dispatch(fetchListTaskFailed(error));
-//       });
-//   };
-// };
+export const filterTask = keyword => {
+  return {
+    type: taskConstants.FILTER_TASK,
+    payload: {
+      keyword,
+    },
+  };
+};
+
+export const filterTaskSuccess = data => {
+  return {
+    type: taskConstants.FILTER_TASK_SUCCESS,
+    payload: {
+      data,
+    },
+  };
+};

@@ -10,6 +10,7 @@ import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
 import styles from './styles';
+import SearchBox from '../../components/SearchBox';
 
 class Task extends Component {
   state = {
@@ -34,6 +35,13 @@ class Task extends Component {
     });
   };
 
+  handleFilter = e => {
+    const { value } = e.target;
+    const { dataTasks } = this.props;
+    const { filterTask } = dataTasks;
+    filterTask(value);
+  };
+
   renderBoard() {
     const { listTask } = this.props;
     let xhtml = null;
@@ -53,6 +61,12 @@ class Task extends Component {
         })}
       </Grid>
     );
+    return xhtml;
+  }
+
+  renderSearchBox() {
+    let xhtml = null;
+    xhtml = <SearchBox handleChange={this.handleFilter} />;
     return xhtml;
   }
 
@@ -76,6 +90,7 @@ class Task extends Component {
         >
           <AddIcon /> Thêm Mới Công Việc
         </Button>
+        {this.renderSearchBox()}
         {this.renderBoard()}
         {this.renderForm()}
       </div>
@@ -88,6 +103,7 @@ Task.propTypes = {
   open: PropTypes.bool,
   dataTasks: PropTypes.shape({
     fetchListTask: PropTypes.func,
+    filterTask: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };

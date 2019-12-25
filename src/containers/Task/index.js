@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import * as taskActions from '../../actions/Task';
+import * as taskActions from '../../actions/task';
 import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';

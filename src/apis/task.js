@@ -1,5 +1,5 @@
-import axiosService from '../../commons/AxiosService';
-import { API_ENDPOINT } from '../../constants';
+import axiosService from '../commons/axiosService';
+import { API_ENDPOINT } from '../constants';
 
 // http://localhost:3000/task
 

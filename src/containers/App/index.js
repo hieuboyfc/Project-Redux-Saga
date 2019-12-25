@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import theme from '../../commons/Theme';
+import theme from '../../commons/theme';
 import GlobalLoading from '../../components/GlobalLoading';
 import configureStore from '../../redux/configureStore';
 import Task from '../Task';

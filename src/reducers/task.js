@@ -1,5 +1,5 @@
-import * as toastHelper from '../../commons/Helpers/toastHelper';
-import * as taskConstants from '../../constants/Task';
+import * as toastHelper from './../commons/toastify';
+import * as taskConstants from '../constants/task';
 
 const initialState = {
   listTask: [],

@@ -5,7 +5,7 @@ import LoadingIcon from './../../assets/icons/loading01.gif';
 import styles from './styles';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import * as uiActions from './../../actions/UI';
+import * as uiActions from './../../actions/ui';
 
 class GlobalLoading extends Component {
   render() {

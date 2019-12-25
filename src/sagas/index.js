@@ -1,9 +1,9 @@
 import { call, fork, take, put, delay } from 'redux-saga/effects';
-import { getListTask } from '../apis/Task';
-import * as taskTypes from '../constants/Task';
+import { getListTask } from '../apis/task';
+import * as taskTypes from '../constants/task';
 import { STATUS_CODE } from '../constants';
-import * as actionTasks from '../actions/Task';
-import * as loading from './../actions/UI';
+import * as actionTasks from '../actions/task';
+import * as loading from './../actions/ui';
 
 function* watchFetchListTaskAction() {
   while (true) {

@@ -10,9 +10,6 @@ const styles = theme => ({
     // padding: theme.spacing(2, 4, 4),
     outline: 'none',
   },
-  textField: {
-    width: '100%',
-  },
   header: {
     fontFamily: theme.typography.fontFamily,
     color: theme.color.textColor,

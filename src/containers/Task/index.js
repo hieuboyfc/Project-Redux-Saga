@@ -6,6 +6,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
 import * as taskActions from '../../actions/task';
+import * as modalActions from '../../actions/modal';
 import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
@@ -13,32 +14,29 @@ import styles from './styles';
 import SearchBox from '../../components/SearchBox';
 
 class Task extends Component {
-  state = {
-    open: false,
-  };
-
   componentDidMount() {
-    const { dataTasks } = this.props;
-    const { fetchListTask } = dataTasks;
+    const { taskActionsCreators } = this.props;
+    const { fetchListTask } = taskActionsCreators;
     fetchListTask();
   }
 
-  closeForm = () => {
-    this.setState({
-      open: false,
-    });
-  };
-
   openForm = () => {
-    this.setState({
-      open: true,
-    });
+    const { modalActionsCreators } = this.props;
+    const {
+      showModal,
+      hideModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionsCreators;
+    showModal();
+    changeModalTitle('Thêm mới công việc');
+    changeModalContent(<TaskForm />);
   };
 
   handleFilter = e => {
     const { value } = e.target;
-    const { dataTasks } = this.props;
-    const { filterTask } = dataTasks;
+    const { taskActionsCreators } = this.props;
+    const { filterTask } = taskActionsCreators;
     filterTask(value);
   };
 
@@ -70,13 +68,6 @@ class Task extends Component {
     return xhtml;
   }
 
-  renderForm() {
-    const { open } = this.state;
-    let xhtml = null;
-    xhtml = <TaskForm open={open} closeForm={this.closeForm} />;
-    return xhtml;
-  }
-
   render() {
     const { classes } = this.props;
     return (
@@ -92,7 +83,6 @@ class Task extends Component {
         </Button>
         {this.renderSearchBox()}
         {this.renderBoard()}
-        {this.renderForm()}
       </div>
     );
   }
@@ -101,9 +91,15 @@ class Task extends Component {
 Task.propTypes = {
   classes: PropTypes.object,
   open: PropTypes.bool,
-  dataTasks: PropTypes.shape({
+  taskActionsCreators: PropTypes.shape({
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
+  }),
+  modalActionsCreators: PropTypes.shape({
+    showModal: PropTypes.func,
+    hideModal: PropTypes.func,
+    changeModalTitle: PropTypes.func,
+    changeModalContent: PropTypes.func,
   }),
   listTask: PropTypes.array,
 };
@@ -115,7 +111,8 @@ const mapStateToProps = state => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    dataTasks: bindActionCreators(taskActions, dispatch),
+    taskActionsCreators: bindActionCreators(taskActions, dispatch),
+    modalActionsCreators: bindActionCreators(modalActions, dispatch),
   };
 };
 

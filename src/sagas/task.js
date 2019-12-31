@@ -11,7 +11,7 @@ import { getListTask } from '../apis/task';
 import * as taskTypes from '../constants/task';
 import { STATUS_CODE } from '../constants';
 import * as actionTasks from '../actions/task';
-import * as loading from './../actions/ui';
+import * as loading from './../actions/globalLoading';
 
 function* watchFetchListTaskAction() {
   while (true) {
@@ -37,7 +37,6 @@ function* filterTaskSaga({ payload }) {
       .toLowerCase()
       .includes(keyword.trim().toLowerCase()),
   );
-
   yield put(actionTasks.filterTaskSuccess(filteredTask));
 }
 

@@ -5,7 +5,7 @@ import LoadingIcon from './../../assets/icons/loading01.gif';
 import styles from './styles';
 import { bindActionCreators, compose } from 'redux';
 import { connect } from 'react-redux';
-import * as loadingActions from './../../actions/globalLoading';
+import * as loadingActions from '../../actions/loading';
 
 class GlobalLoading extends Component {
   render() {
@@ -29,7 +29,7 @@ GlobalLoading.propTypes = {
 
 const mapStateToProps = state => {
   return {
-    showLoading: state.globalLoading.showLoading,
+    showLoading: state.loading.showLoading,
   };
 };
 

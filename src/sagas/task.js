@@ -11,7 +11,7 @@ import { getListTask } from '../apis/task';
 import * as taskTypes from '../constants/task';
 import { STATUS_CODE } from '../constants';
 import * as actionTasks from '../actions/task';
-import * as loading from './../actions/globalLoading';
+import * as loading from './../actions/loading';
 
 function* watchFetchListTaskAction() {
   while (true) {

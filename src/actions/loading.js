@@ -1,4 +1,4 @@
-import * as loadingTypes from '../constants/globalLoading';
+import * as loadingTypes from '../constants/loading';
 
 export const showLoading = () => ({
   type: loadingTypes.SHOW_LOADING,

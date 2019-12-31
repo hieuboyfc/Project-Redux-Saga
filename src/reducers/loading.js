@@ -1,4 +1,4 @@
-import * as types from '../constants/globalLoading';
+import * as types from '../constants/loading';
 
 const initialState = {
   showLoading: false,

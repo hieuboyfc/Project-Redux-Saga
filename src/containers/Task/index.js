@@ -5,13 +5,14 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import * as taskActions from '../../actions/task';
+import { reduxForm } from 'redux-form';
 import * as modalActions from '../../actions/modal';
+import * as taskActions from '../../actions/task';
+import SearchBox from '../../components/SearchBox';
 import TaskForm from '../../components/Task/TaskForm';
 import TaskList from '../../components/Task/TaskList';
 import { STATUSES } from '../../constants';
 import styles from './styles';
-import SearchBox from '../../components/SearchBox';
 
 class Task extends Component {
   componentDidMount() {
@@ -24,7 +25,6 @@ class Task extends Component {
     const { modalActionsCreators } = this.props;
     const {
       showModal,
-      hideModal,
       changeModalTitle,
       changeModalContent,
     } = modalActionsCreators;
@@ -118,4 +118,8 @@ const mapDispatchToProps = dispatch => {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-export default compose(withStyles(styles), withConnect)(Task);
+const withReduxForm = reduxForm({
+  form: 'TASK_MANAGEMENT',
+});
+
+export default compose(withStyles(styles), withConnect, withReduxForm)(Task);

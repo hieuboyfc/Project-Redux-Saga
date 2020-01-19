@@ -5,7 +5,6 @@ import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators, compose } from 'redux';
-import { reduxForm } from 'redux-form';
 import * as modalActions from '../../actions/modal';
 import * as taskActions from '../../actions/task';
 import SearchBox from '../../components/SearchBox';
@@ -118,8 +117,4 @@ const mapDispatchToProps = dispatch => {
 
 const withConnect = connect(mapStateToProps, mapDispatchToProps);
 
-const withReduxForm = reduxForm({
-  form: 'TASK_MANAGEMENT',
-});
-
-export default compose(withStyles(styles), withConnect, withReduxForm)(Task);
+export default compose(withStyles(styles), withConnect)(Task);

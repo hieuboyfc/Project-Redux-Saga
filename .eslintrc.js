@@ -20,6 +20,7 @@ module.exports = {
     'react/jsx-first-prop-new-line': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-closing-bracket-location': 0,
+    'react/jsx-props-no-spreading': 0,
     'react/state-in-constructor': 0,
     'react/no-unused-prop-types': 0,
     'react/forbid-prop-types': 0,

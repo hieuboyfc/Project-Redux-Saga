@@ -19,8 +19,8 @@ class AxiosService {
     return this.instance.get(url);
   }
 
-  post(url, data) {
-    return this.instance.post(url, data);
+  post(url, body) {
+    return this.instance.post(url, body);
   }
 }
 

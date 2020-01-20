@@ -6,6 +6,9 @@ const validate = values => {
   } else if (title.trim() && title.length < 5) {
     errors.title = 'Tiêu đề phải từ 5 ký tự';
   }
+  if (!description) {
+    errors.description = 'Vui lòng nhập mô tả';
+  }
   return errors;
 };
 

@@ -1,4 +1,4 @@
-import { Button, Grid } from '@material-ui/core';
+import { Button, Grid, Box } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
@@ -21,7 +21,9 @@ class Task extends Component {
   }
 
   openForm = () => {
-    const { modalActionsCreators } = this.props;
+    const { modalActionsCreators, taskActionsCreators } = this.props;
+    const { setTaskEditting } = taskActionsCreators;
+    setTaskEditting(null);
     const {
       showModal,
       changeModalTitle,
@@ -39,6 +41,60 @@ class Task extends Component {
     filterTask(value);
   };
 
+  handleEditTask = task => {
+    const { taskActionsCreators, modalActionsCreators } = this.props;
+    const { setTaskEditting } = taskActionsCreators;
+    setTaskEditting(task);
+    const {
+      showModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionsCreators;
+    showModal();
+    changeModalTitle('Cập nhật công việc');
+    changeModalContent(<TaskForm />);
+  };
+
+  onDeleteTask = task => {
+    const { taskActionsCreators } = this.props;
+    const { deleteTask } = taskActionsCreators;
+    deleteTask(task.id);
+  };
+
+  handleDeleteTask = task => {
+    const { modalActionsCreators, classes } = this.props;
+    const {
+      showModal,
+      hideModal,
+      changeModalTitle,
+      changeModalContent,
+    } = modalActionsCreators;
+    showModal();
+    changeModalTitle('Xóa công việc');
+    changeModalContent(
+      <div className={classes.modalDelete}>
+        <div className={classes.modalConfirmText}>
+          Bạn chắc muốn xóa{' '}
+          <span className={classes.modalConfirmTextBold}>{task.title}</span>
+        </div>
+        <Box display="flex" flexDirection="row-reverse" mt={2}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.onDeleteTask(task)}
+          >
+            Xóa
+          </Button>
+          <Box mr={1}>
+            <Button variant="contained" onClick={hideModal}>
+              Hủy bỏ
+            </Button>
+          </Box>
+        </Box>
+      </div>,
+    );
+  };
+
   renderBoard() {
     const { listTask } = this.props;
     let xhtml = null;
@@ -53,6 +109,8 @@ class Task extends Component {
               tasks={taskFilterByStatus}
               status={status}
               key={status.value}
+              onClickEdit={this.handleEditTask}
+              onClickDelete={this.handleDeleteTask}
             />
           );
         })}
@@ -93,6 +151,8 @@ Task.propTypes = {
   taskActionsCreators: PropTypes.shape({
     fetchListTask: PropTypes.func,
     filterTask: PropTypes.func,
+    setTaskEditting: PropTypes.func,
+    deleteTask: PropTypes.func,
   }),
   modalActionsCreators: PropTypes.shape({
     showModal: PropTypes.func,

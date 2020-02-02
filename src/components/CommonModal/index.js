@@ -19,7 +19,7 @@ class CommonModal extends Component {
     } = this.props;
     const { hideModal } = modalActionsCreators;
     return (
-      <Modal open={open} onClose={hideModal}>
+      <Modal open={open}>
         <div className={classes.modal}>
           <div className={classes.header}>
             <span className={classes.title}>{title}</span>

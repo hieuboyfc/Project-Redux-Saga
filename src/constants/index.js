@@ -20,3 +20,9 @@ export const STATUS_CODE = {
   CREATED: 201,
   UPDATED: 202,
 };
+
+export const MESSAGE = {
+  ADD_SUCCESS: 'Thêm mới dữ liệu thành công!',
+  UPDATE_SUCCESS: 'Cập nhật dữ liệu thành công!',
+  DELETE_SUCCESS: 'Xóa dữ liệu thành công!',
+};

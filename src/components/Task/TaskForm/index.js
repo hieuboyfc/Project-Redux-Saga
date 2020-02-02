@@ -1,4 +1,4 @@
-import { Box, Button, Grid } from '@material-ui/core';
+import { Box, Button, Grid, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -7,16 +7,42 @@ import { bindActionCreators, compose } from 'redux';
 import { Field, reduxForm } from 'redux-form';
 import * as modalActions from '../../../actions/modal';
 import * as taskActions from '../../../actions/task';
-import renderTextField from '../../FormHelper/TextFiled';
+import renderTextField from '../../FormHelper/TextField';
+import renderSelectField from '../../FormHelper/Select';
 import validate from '../TaskForm/validate';
 import styles from './styles';
 
 class TaskForm extends Component {
   handleSubmitForm = data => {
-    const { taskActionsCreators } = this.props;
-    const { addTask } = taskActionsCreators;
-    addTask(data);
+    const { taskActionsCreators, taskEditting } = this.props;
+    const { addTask, updateTask } = taskActionsCreators;
+    if (taskEditting && taskEditting.id) {
+      updateTask(data);
+    } else {
+      addTask(data);
+    }
   };
+
+  renderStatusSelection() {
+    let xhtml = null;
+    const { taskEditting, classes } = this.props;
+    if (taskEditting && taskEditting.id) {
+      xhtml = (
+        <Field
+          id="status"
+          label="Trạng thái"
+          className={classes.select}
+          name="status"
+          component={renderSelectField}
+        >
+          <MenuItem value={0}>Sẵn sàng</MenuItem>
+          <MenuItem value={1}>Đang xử lý</MenuItem>
+          <MenuItem value={2}>Đã hoàn thành</MenuItem>
+        </Field>
+      );
+    }
+    return xhtml;
+  }
 
   render() {
     const {
@@ -52,6 +78,9 @@ class TaskForm extends Component {
             />
           </Grid>
           <Grid item md={12}>
+            {this.renderStatusSelection()}
+          </Grid>
+          <Grid item md={12}>
             <Box display="flex" flexDirection="row-reverse" mt={3}>
               <Button
                 variant="contained"
@@ -81,13 +110,26 @@ TaskForm.propTypes = {
   }),
   taskActionsCreators: PropTypes.shape({
     addTask: PropTypes.func,
+    updateTask: PropTypes.func,
   }),
   handleSubmit: PropTypes.func,
   invalid: PropTypes.bool,
   submitting: PropTypes.bool,
+  taskEditting: PropTypes.object,
 };
 
-const mapStateToProps = null;
+const mapStateToProps = state => {
+  return {
+    taskEditting: state.task.taskEditting,
+    initialValues: {
+      title: state.task.taskEditting ? state.task.taskEditting.title : '',
+      description: state.task.taskEditting
+        ? state.task.taskEditting.description
+        : '',
+      status: state.task.taskEditting ? state.task.taskEditting.status : '',
+    },
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     modalActionsCreators: bindActionCreators(modalActions, dispatch),

@@ -3,23 +3,24 @@ import {
   delay,
   fork,
   put,
-  select,
   take,
+  select,
   takeEvery,
   takeLatest,
 } from 'redux-saga/effects';
+import { hideModal } from '../actions/modal';
 import * as actionTasks from '../actions/task';
-import { addTask, getListTask } from '../apis/task';
+import { addTask, getListTask, updateTask, deleteTask } from '../apis/task';
 import { STATUSES, STATUS_CODE } from '../constants';
 import * as taskTypes from '../constants/task';
 import * as loading from './../actions/loading';
-import { hideModal } from '../actions/modal';
 
 function* watchFetchListTaskAction() {
   while (true) {
-    yield take(taskTypes.FETCH_TASK);
+    const action = yield take(taskTypes.FETCH_TASK);
     yield put(loading.showLoading());
-    const resp = yield call(getListTask);
+    const { params } = action.payload;
+    const resp = yield call(getListTask, params);
     const { status, data } = resp;
     if (status === STATUS_CODE.SUCCESS)
       yield put(actionTasks.fetchListTaskSuccess(data));
@@ -32,21 +33,14 @@ function* watchFetchListTaskAction() {
 function* filterTaskSaga({ payload }) {
   yield delay(500);
   const { keyword } = payload;
-  const list = yield select(state => state.task.listTask);
-  const filteredTask = list.filter(task =>
-    task.title
-      .trim()
-      .toLowerCase()
-      .includes(keyword.trim().toLowerCase()),
-  );
-  yield put(actionTasks.filterTaskSuccess(filteredTask));
+  yield put(actionTasks.fetchListTask({ q: keyword }));
 }
 
 function* addTaskSaga({ payload }) {
   yield put(loading.showLoading());
-  const addNewData = payload.data;
-  addNewData.status = STATUSES[0].value;
-  const resp = yield call(addTask, addNewData);
+  const dataNew = payload.data;
+  dataNew.status = STATUSES[0].value;
+  const resp = yield call(addTask, dataNew);
   const { data, status } = resp;
   if (status === STATUS_CODE.CREATED) {
     yield put(actionTasks.addTaskSuccess(data));
@@ -58,10 +52,43 @@ function* addTaskSaga({ payload }) {
   yield put(loading.hideLoading());
 }
 
+function* updateTaskSaga({ payload }) {
+  const { data } = payload;
+  const taskEditting = yield select(state => state.task.taskEditting);
+  yield put(loading.showLoading());
+  const resp = yield call(updateTask, data, taskEditting.id);
+  const { data: dataNew, status: statusCode } = resp;
+  if (statusCode === STATUS_CODE.SUCCESS) {
+    yield put(actionTasks.updateTaskSuccess(dataNew));
+    yield put(hideModal());
+  } else {
+    yield put(actionTasks.updateTaskFailed(dataNew));
+  }
+  yield delay(500);
+  yield put(loading.hideLoading());
+}
+
+function* deleteTaskSaga({ payload }) {
+  const { id } = payload;
+  yield put(loading.showLoading());
+  const resp = yield call(deleteTask, id);
+  const { data, status } = resp;
+  if (status === STATUS_CODE.SUCCESS) {
+    yield put(actionTasks.deleteTaskSuccess(id));
+    yield put(hideModal());
+  } else {
+    yield put(actionTasks.deleteTaskFailed(data));
+  }
+  yield delay(500);
+  yield put(loading.hideLoading());
+}
+
 function* taskSaga() {
   yield fork(watchFetchListTaskAction);
   yield takeLatest(taskTypes.FILTER_TASK, filterTaskSaga);
   yield takeEvery(taskTypes.ADD_TASK, addTaskSaga);
+  yield takeLatest(taskTypes.UPDATE_TASK, updateTaskSaga);
+  yield takeLatest(taskTypes.DELETE_TASK, deleteTaskSaga);
 }
 
 export default taskSaga;

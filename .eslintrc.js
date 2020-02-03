@@ -37,6 +37,7 @@ module.exports = {
     'import/prefer-default-export': 0,
     'import/extendsions': 0,
     'import/order': 0,
+    'import/no-cycle': 0,
     'prettier/prettier': ['error'],
   },
   plugins: ['prettier'],

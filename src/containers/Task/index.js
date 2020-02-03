@@ -1,4 +1,4 @@
-import { Button, Grid, Box } from '@material-ui/core';
+import { Box, Button, Grid } from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import { withStyles } from '@material-ui/styles';
 import PropTypes from 'prop-types';

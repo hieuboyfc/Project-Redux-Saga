@@ -1,3 +1,6 @@
+import AdminHomePage from '../containers/AdminHomePage';
+import Task from '../containers/Task';
+
 export const API_ENDPOINT = 'http://localhost:3000';
 
 export const STATUSES = [
@@ -26,3 +29,17 @@ export const MESSAGE = {
   UPDATE_SUCCESS: 'Cập nhật dữ liệu thành công!',
   DELETE_SUCCESS: 'Xóa dữ liệu thành công!',
 };
+
+export const ADMIN_ROUTERS = [
+  {
+    path: '/',
+    name: 'Trang quản trị',
+    exact: true,
+    component: AdminHomePage,
+  },
+  {
+    path: '/task',
+    name: 'Quản lý công viêc',
+    component: Task,
+  },
+];
